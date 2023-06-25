@@ -1,5 +1,7 @@
 .card {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 454px;
   height: 281px;
   grid-template-columns: 183px 271px;
@@ -8,9 +10,9 @@
   box-shadow: 6px 6px 14px -3px rgba(60, 65, 69, 0.22);
 }
 
-@media screen and (max-width: 420px) {
+@media (max-width: 420px) {
   .card {
-    display: flex;
+    padding: 10px;
     max-width: 388px;
     height: 245px;
   }
@@ -18,31 +20,52 @@
 
 .card__img {
   width: 183px;
-  height: 280px;
+  height: 281px;
+  position: absolute;
 }
 
-@media screen and (max-width: 420px) {
+@media (max-width: 420px) {
   .card__img {
+    position: static;
+    margin-right: 15px;
     width: 60px;
     height: 91px;
   }
 }
 
-.card__no-img {
-  margin: auto;
-}
-
 .card__info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+@media (max-width: 420px) {
+  .card__wrapper {
+    display: flex;
+  }
+}
+
+.card__info-title {
   padding: 15px;
+  padding-left: 203px;
+}
+
+@media (max-width: 420px) {
+  .card__info-title {
+    padding: 0px;
+  }
 }
 
 .card__info-inner {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 30px;
   margin-bottom: 7px;
+}
+
+@media (max-width: 420px) {
+  .card__info-inner {
+    position: static;
+  }
 }
 
 .card__info-name {
@@ -54,11 +77,14 @@
 }
 
 .card__info-rate {
+  position: absolute;
+  right: 10px;
+  width: 30px;
   height: 30px;
   border: 2px solid;
   border-radius: 50%;
   text-align: center;
-  padding: 15%;
+  padding-top: 5px;
 
   font-family: 'Inter', 'system-ui', 'sans-serif';
   font-size: 12px;
@@ -111,6 +137,12 @@
   color: rgba(0, 0, 0, 0.65);
 }
 
+.card-desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .card__info-description {
   font-family: 'Inter', 'system-ui', 'sans-serif';
   font-style: normal;
@@ -118,6 +150,27 @@
   font-size: 12px;
   line-height: 22px;
   text-align: left;
+
+  padding-right: 15px;
+  padding-left: 203px;
+}
+
+@media (max-width: 420px) {
+  .card__info-description {
+    padding: 0px;
+  }
+}
+
+.card__info-stars {
+  padding-bottom: 15px;
+  padding-left: 203px;
+}
+
+@media (max-width: 420px) {
+  .card__info-stars {
+    text-align: end;
+    padding: 0px;
+  }
 }
 
 .ant-rate .ant-rate-star:not(:last-child) {
@@ -127,29 +180,4 @@
 .anticon-star svg {
   width: 18px;
   height: 18px;
-}
-
-.xl {
-  max-height: 110px;
-  overflow-y: hidden;
-}
-
-.l {
-  max-height: 90px;
-  overflow-y: hidden;
-}
-
-.m {
-  max-height: 70px;
-  overflow-y: hidden;
-}
-
-.s {
-  max-height: 50px;
-  overflow-y: hidden;
-}
-
-.xs {
-  max-height: 40px;
-  overflow-y: hidden;
 }

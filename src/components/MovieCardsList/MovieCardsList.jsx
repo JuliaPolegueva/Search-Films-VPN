@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Offline, Online } from 'react-detect-offline';
+import { Offline, Online } from 'react-detect-offline';
 import { Pagination } from 'antd';
 
 import MovieCard from '../MovieCard/MovieCard';
@@ -44,12 +44,17 @@ class MovieCardsList extends React.Component {
 
     return (
       <React.Fragment>
-        <ul className={loading || noResults ? 'card-list card-list-loading' : 'card-list'}>
-          {spinner}
-          {noContent}
-          {content}
-        </ul>
-        {pagination}
+        <Online>
+          <ul className={loading || noResults ? 'card-list card-list-loading' : 'card-list'}>
+            {spinner}
+            {noContent}
+            {content}
+          </ul>
+          {pagination}
+        </Online>
+        <Offline>
+          <span className="no-connection">Нет доступа к интернету, проверьте подключение</span>
+        </Offline>
       </React.Fragment>
     );
   }

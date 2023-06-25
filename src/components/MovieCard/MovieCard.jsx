@@ -123,14 +123,14 @@ class MovieCard extends React.Component {
 
           return (
             <li className="card">
-              <img
-                className={posterPath ? 'card__img' : 'card__no-img'}
-                src={posterPath ? `https://image.tmdb.org/t/p/w500${posterPath}` : icon}
-                alt={`Постер фильма ${title}`}
-              />
               <div className="card__info">
-                <div className="card__data">
-                  <div className="card__data-header">
+                <div className="card__wrapper">
+                  <img
+                    className="card__img"
+                    src={posterPath ? `https://image.tmdb.org/t/p/w500${posterPath}` : icon}
+                    alt={`Постер фильма ${title}`}
+                  />
+                  <div className="card__info-title">
                     <div className="card__info-inner">
                       <h2 className="card__info-name">{title}</h2>
                       <div
@@ -152,10 +152,11 @@ class MovieCard extends React.Component {
                     </p>
                     <div className="card__info-genres">{movieGenres}</div>
                   </div>
-                  <p className="card__info-description">{this.truncate(overview)}</p>
                 </div>
-                <div className="card__info-stars">{rating}</div>
+
+                <p className="card__info-description">{this.truncate(overview)}</p>
               </div>
+              <div className="card__info-stars">{rating}</div>
             </li>
           );
         }}
