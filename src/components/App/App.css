@@ -1,0 +1,45 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-height: 100%;
+  background-color: #f7f7f7;
+}
+
+.movie-app {
+  max-width: 1010px;
+  min-height: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+.main {
+  padding: 35px;
+}
+
+@media (max-width: 420px) {
+  .main {
+    padding: 16px;
+  }
+}
+
+.ant-tabs {
+  min-height: 100vh;
+}
+
+.ant-tabs-tab-btn {
+  font-family: 'Inter', 'system-ui', 'sans-serif';
+  font-size: 14px;
+}

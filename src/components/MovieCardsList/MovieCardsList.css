@@ -1,0 +1,41 @@
+.card-list {
+  display: grid;
+  grid-template-columns: 454px 454px;
+  gap: 35px;
+  margin: 32px 0;
+}
+
+@media (max-width: 420px) {
+  .card-list {
+    grid-template-columns: 0px;
+  }
+}
+
+.card-list-loading {
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
+
+.no-results {
+  margin: 0 auto;
+  font-family: 'Inter', 'system-ui', 'sans-serif';
+  font-size: 18px;
+  color: #827e7e;
+}
+
+.no-connection {
+  display: block;
+  padding: 30px;
+  text-align: center;
+  font-family: 'Inter', 'system-ui', 'sans-serif';
+  font-size: 18px;
+  color: #827e7e;
+}
+
+.ant-pagination {
+  text-align: center;
+}
+
+.ant-pagination .ant-pagination-options {
+  display: none;
+}
