@@ -7,7 +7,7 @@
 
 @media (max-width: 420px) {
   .card-list {
-    grid-template-columns: 0px;
+    display: block;
   }
 }
 

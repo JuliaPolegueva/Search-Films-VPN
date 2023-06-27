@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Rate } from 'antd';
 import format from 'date-fns/format';
 
@@ -9,8 +10,6 @@ import icon from './no-image.png';
 import './MovieCard.css';
 
 class MovieCard extends React.Component {
-  //Добавление рейтинга
-
   changeRating = value => {
     this.props
       .addRating(value, this.props.sessionId, this.props.id)
@@ -19,27 +18,29 @@ class MovieCard extends React.Component {
   };
 
   truncate(str) {
-    if (str.length > 45) {
+    const { title } = this.props;
+
+    if (str.length > 35) {
       let newStr;
       let space;
 
-      if (this.props.title.length >= 35) {
-        newStr = str.substr(0, 35);
+      if (title.length >= 35) {
+        newStr = str.substr(0, 30);
         space = newStr.lastIndexOf(' ');
 
         return newStr.slice(0, space) + '...';
-      } else if (25 <= this.props.title.length && this.props.title.length < 35) {
-        newStr = str.substr(0, 50);
+      } else if (25 <= title.length && title.length < 35) {
+        newStr = str.substr(0, 70);
         space = newStr.lastIndexOf(' ');
 
         return newStr.slice(0, space) + '...';
-      } else if (15 <= this.props.title.length && this.props.title.length < 25) {
-        newStr = str.substr(0, 90);
+      } else if (15 <= title.length && title.length < 25) {
+        newStr = str.substr(0, 95);
         space = newStr.lastIndexOf(' ');
 
         return newStr.slice(0, space) + '...';
-      } else if (this.props.title.length <= 15) {
-        newStr = str.substr(0, 130);
+      } else if (title.length <= 15) {
+        newStr = str.substr(0, 120);
         space = newStr.lastIndexOf(' ');
 
         return newStr.slice(0, space) + '...';
@@ -48,57 +49,12 @@ class MovieCard extends React.Component {
     return str;
   }
 
-  //Обрезка текста описания
-
-  /*truncate(str) {
-    if (str.length > 50) {
-      let newStr;
-      let space;
-
-      if (this.props.title.length >= 45) {
-        newStr = str.substr(0, 50);
-        space = newStr.lastIndexOf(' ');
-
-        return newStr.slice(0, space) + '...';
-      } else if (32 <= this.props.title.length && this.props.title.length < 45) {
-        newStr = str.substr(0, 85);
-        space = newStr.lastIndexOf(' ');
-
-        return newStr.slice(0, space) + '...';
-      } else if (22 <= this.props.title.length && this.props.title.length < 32) {
-        newStr = str.substr(0, 110);
-        space = newStr.lastIndexOf(' ');
-
-        return newStr.slice(0, space) + '...';
-      } else if (12 < this.props.title.length && this.props.title.length < 22) {
-        newStr = str.substr(0, 135);
-        space = newStr.lastIndexOf(' ');
-
-        return newStr.slice(0, space) + '...';
-      } else if (this.props.title.length <= 12) {
-        newStr = str.substr(0, 145);
-        space = newStr.lastIndexOf(' ');
-
-        return newStr.slice(0, space) + '...';
-      }
-    }
-    return str;
-  }
-*/
   render() {
     const { id, rate, title, releaseDate, overview, posterPath, voteAverage, genreIds } = this.props;
     const genreId = [...genreIds];
-    let movieRate;
+    const movieRate = rate && id in rate ? rate[id] : 0;
 
-    if (rate) movieRate = id in rate ? rate[id] : 0;
-
-    const newRate = <Rate allowHalf count={10} onChange={this.changeRating} />;
-    const oldRate = <Rate allowHalf count={10} defaultValue={movieRate} />;
-
-    const rating = movieRate ? oldRate : newRate;
-    //const titleLength = title.length;
-
-    //const overviewNew = overview.length > 50 ? `${overview + '...'}` : overview;
+    const newRate = <Rate allowHalf count={10} defaultValue={movieRate} onChange={this.changeRating} />;
 
     return (
       <MoviesGenresConsumer>
@@ -156,7 +112,7 @@ class MovieCard extends React.Component {
 
                 <p className="card__info-description">{this.truncate(overview)}</p>
               </div>
-              <div className="card__info-stars">{rating}</div>
+              <div className="card__info-stars">{newRate}</div>
             </li>
           );
         }}
@@ -165,25 +121,24 @@ class MovieCard extends React.Component {
   }
 }
 
-export default MovieCard;
+MovieCard.defaultProps = {
+  data: {},
+  rate: {},
+};
 
-/*className={`card__info-description ${
-                titleLength <= 20
-                  ? 'xl'
-                  : titleLength > 20 && titleLength <= 30
-                  ? 'l'
-                  : titleLength > 30 && titleLength <= 40
-                  ? 'm'
-                  : titleLength > 40 && titleLength <= 50
-                  ? 's'
-                  : 'xs'
-              }`*/
-/*{`card__info-genres ${
-                0 <= genreIds && genreIds < 3
-                  ? 'bad'
-                  : 3 <= genreIds && genreIds < 5
-                  ? 'normal'
-                  : 5 <= genreIds && genreIds < 7
-                  ? 'good'
-                  : 'wonderful'
-              }`}*/
+MovieCard.propTypes = {
+  id: PropTypes.number,
+  title: PropTypes.string,
+  releaseDate: PropTypes.string,
+  overview: PropTypes.string,
+  posterPath: PropTypes.string,
+  voteAverage: PropTypes.string,
+  genreIds: PropTypes.array,
+
+  rate: PropTypes.object,
+  sessionId: PropTypes.string,
+  addRating: PropTypes.func.isRequired,
+  changeRate: PropTypes.func.isRequired,
+};
+
+export default MovieCard;

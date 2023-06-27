@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 
 import SwapiService from '../../services/SwapiService';
@@ -50,5 +51,17 @@ class SearchBar extends React.Component {
     );
   }
 }
+
+SearchBar.defaultProps = {
+  page: 1,
+};
+
+SearchBar.propTypes = {
+  onError: PropTypes.func.isRequired,
+  onMovieLoaded: PropTypes.func.isRequired,
+  onLoading: PropTypes.func.isRequired,
+  changePage: PropTypes.func.isRequired,
+  page: PropTypes.number,
+};
 
 export default SearchBar;

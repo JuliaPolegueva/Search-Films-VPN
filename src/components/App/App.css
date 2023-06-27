@@ -18,6 +18,12 @@ body {
   background-color: #f7f7f7;
 }
 
+@media (max-width: 420px) {
+  body {
+    background-color: #ffffff;
+  }
+}
+
 .movie-app {
   max-width: 1010px;
   min-height: 100%;
@@ -42,4 +48,8 @@ body {
 .ant-tabs-tab-btn {
   font-family: 'Inter', 'system-ui', 'sans-serif';
   font-size: 14px;
+}
+
+.error {
+  min-width: 100%;
 }

@@ -41,8 +41,6 @@ export default class SwapiService {
 
   //Получение списка рэйтинговых фильмов
 
-  //Исправить page
-
   async getRatedMovies(sessionId, page) {
     const res = await this.getResource(`/guest_session/${sessionId}/rated/movies?api_key=${this._apiKey}&page=${page}`);
 

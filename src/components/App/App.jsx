@@ -1,11 +1,11 @@
 import React from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Alert } from 'antd';
 
 import SwapiService from '../../services/SwapiService';
 import SearchBar from '../SearchBar';
 import MovieCardsList from '../MovieCardsList';
 import RatedMovieCardsList from '../RatedMovieCardsList/RatedMovieCardsList';
-//import { SwapiServiceProvider } from '../SwapiServiceContext/SwapiServiceContext';
+import NetworkState from '../NetworkState/NetworkState';
 import { MoviesGenresProvider } from '../MoviesGenres/MoviesGenres';
 
 import './App.css';
@@ -15,6 +15,7 @@ class App extends React.Component {
   genres = [];
 
   state = {
+    network: false,
     sessionId: null,
     moviesList: null,
     totalPages: null,
@@ -26,6 +27,7 @@ class App extends React.Component {
 
     loading: false,
     error: false,
+    errorMessage: null,
     rate: null,
   };
 
@@ -53,14 +55,20 @@ class App extends React.Component {
       .catch(this.onError);
   };
 
+  onNetworkState = () => {
+    this.setState(state => {
+      return { network: !state.network };
+    });
+  };
+
   //Если есть ошибка
 
   onError = err => {
     this.setState({
       error: true,
+      errorMessage: err,
       loading: false,
     });
-    alert(`Произошла ошибка: ${err}`);
   };
 
   //Данные фильмов полностью загружены
@@ -114,64 +122,84 @@ class App extends React.Component {
   //Изменение рэйтинга
 
   changeRate = rate => {
-    this.setState({ rate: rate });
+    this.setState({ rate });
   };
 
   //Рендер карточек фильмов
 
   changeTab = key => {
-    if (key === '2')
-      this.swapiService
-        .getRatedMovies(this.state.sessionId, this.state.pageMovieRated)
-        .then(this.onRatedMovieLoaded)
-        .catch(this.onError);
+    if (key === '2') this.onLoading();
+    this.swapiService
+      .getRatedMovies(this.state.sessionId, this.state.pageMovieRated)
+      .then(this.onRatedMovieLoaded)
+      .catch(this.onError);
   };
 
   render() {
+    const network = this.state.network ? (
+      <Alert
+        className="alert alert-net"
+        message="Network Error"
+        description="Нет доступа к интернету, проверьте подключение"
+        type="error"
+        showIcon
+      />
+    ) : (
+      <Tabs
+        defaultActiveKey="1"
+        centered
+        destroyInactiveTabPane={false}
+        onChange={this.changeTab}
+        items={[
+          {
+            label: 'Search',
+            key: '1',
+            children: (
+              <React.Fragment>
+                <SearchBar
+                  onError={this.onError}
+                  onMovieLoaded={this.onMovieLoaded}
+                  onLoading={this.onLoading}
+                  changePage={this.changePageMovie}
+                  page={this.state.pageMovie}
+                  swapiService={this.swapiService}
+                />
+                <MovieCardsList
+                  {...this.state}
+                  changeRate={this.changeRate}
+                  changePage={this.changePageMovie}
+                  swapiService={this.swapiService}
+                />
+              </React.Fragment>
+            ),
+          },
+          {
+            label: 'Rated',
+            key: '2',
+            children: (
+              <React.Fragment>
+                <RatedMovieCardsList
+                  {...this.state}
+                  onError={this.onError}
+                  onRatedMovieLoaded={this.onRatedMovieLoaded}
+                  onLoading={this.onLoading}
+                  changeRate={this.changeRate}
+                  changePage={this.changePageRate}
+                  swapiService={this.swapiService}
+                />
+              </React.Fragment>
+            ),
+          },
+        ]}
+      />
+    );
+
     return (
       <MoviesGenresProvider value={this.genres}>
         <div className="movie-app">
           <div className="main">
-            <Tabs
-              defaultActiveKey="1"
-              centered
-              destroyInactiveTabPane={false}
-              onChange={this.changeTab}
-              items={[
-                {
-                  label: 'Search',
-                  key: '1',
-                  children: (
-                    <React.Fragment>
-                      <SearchBar
-                        onError={this.onError}
-                        onMovieLoaded={this.onMovieLoaded}
-                        onLoading={this.onLoading}
-                        changePage={this.changePageMovie}
-                        page={this.state.pageMovie}
-                      />
-                      <MovieCardsList {...this.state} changeRate={this.changeRate} changePage={this.changePageMovie} />
-                    </React.Fragment>
-                  ),
-                },
-                {
-                  label: 'Rated',
-                  key: '2',
-                  children: (
-                    <React.Fragment>
-                      <RatedMovieCardsList
-                        {...this.state}
-                        onError={this.onError}
-                        onRatedMovieLoaded={this.onRatedMovieLoaded}
-                        onLoading={this.onLoading}
-                        changeRate={this.changeRate}
-                        changePage={this.changePageRate}
-                      />
-                    </React.Fragment>
-                  ),
-                },
-              ]}
-            />
+            {network}
+            <NetworkState onNetworkState={this.onNetworkState} />
           </div>
         </div>
       </MoviesGenresProvider>
