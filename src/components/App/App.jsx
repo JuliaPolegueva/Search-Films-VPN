@@ -4,9 +4,9 @@ import { Tabs, Alert } from 'antd';
 import SwapiService from '../../services/SwapiService';
 import SearchBar from '../SearchBar';
 import MovieCardsList from '../MovieCardsList';
-import RatedMovieCardsList from '../RatedMovieCardsList/RatedMovieCardsList';
-import NetworkState from '../NetworkState/NetworkState';
-import { MoviesGenresProvider } from '../MoviesGenres/MoviesGenres';
+import RatedMovieCardsList from '../RatedMovieCardsList';
+import NetworkState from '../../utils/network-state';
+import { MoviesGenresProvider } from '../../context/MoviesGenres';
 
 import './App.css';
 

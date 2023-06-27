@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Pagination, Alert } from 'antd';
 
-import MovieCard from '../MovieCard/MovieCard';
-import Spinner from '../Spinner/Spinner';
+import MovieCard from '../MovieCard';
+import Spinner from '../Spinner';
 
 import './RatedMovieCardsList.css';
 

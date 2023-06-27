@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { Rate } from 'antd';
 import format from 'date-fns/format';
 
-import { MoviesGenresConsumer } from '../MoviesGenres/MoviesGenres';
-
-import icon from './no-image.png';
+import { MoviesGenresConsumer } from '../../context/MoviesGenres';
+import icon from '../../assets/images/no-image.png';
 import './MovieCard.css';
 
 class MovieCard extends React.Component {
